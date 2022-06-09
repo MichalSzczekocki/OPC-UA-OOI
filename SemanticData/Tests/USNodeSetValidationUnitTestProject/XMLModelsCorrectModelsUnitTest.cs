@@ -51,6 +51,8 @@ namespace UAOOI.SemanticData.UANodeSetValidation
     [TestCategory("Correct Model")]
     public void UAObjectTypeTestMethod()
     {
+      //TODO NetworkIdentifier is missing in generated Model Design for DI model #629
+      //TODO The exported model doesn't contain all nodes #653
       FileInfo _testDataFileInfo = new FileInfo(@"CorrectModels\ObjectTypeTest\ObjectTypeTest.NodeSet2.xml");
       Assert.IsTrue(_testDataFileInfo.Exists);
       List<IUANodeContext> _nodes = ValidateAndExportModelUnitTest(_testDataFileInfo, 85, new UriBuilder("http://cas.eu/UA/CommServer/UnitTests/ObjectTypeTest").Uri);
@@ -76,7 +78,7 @@ namespace UAOOI.SemanticData.UANodeSetValidation
     {
       FileInfo _testDataFileInfo = new FileInfo(@"CorrectModels\DataTypeTest\DataTypeTest.NodeSet2.xml");
       Assert.IsTrue(_testDataFileInfo.Exists);
-      List<IUANodeContext> _nodes = ValidateAndExportModelUnitTest(_testDataFileInfo, 18, new UriBuilder("http://cas.eu/UA/CommServer/UnitTests/DataTypeTest").Uri);
+      List<IUANodeContext> _nodes = ValidateAndExportModelUnitTest(_testDataFileInfo, 22, new UriBuilder("http://cas.eu/UA/CommServer/UnitTests/DataTypeTest").Uri);
       Assert.IsFalse(_nodes.Where<IUANodeContext>(x => x.UANode == null).Any<IUANodeContext>());
       Assert.AreEqual<int>(4, _nodes.Where<IUANodeContext>(x => x.UANode is UAType).Count<IUANodeContext>());
     }

@@ -1,5 +1,5 @@
 /* ========================================================================
- * Copyright (c) 2005-2016 The OPC Foundation, Inc. All rights reserved.
+ * Copyright (c) 2005-2021 The OPC Foundation, Inc. All rights reserved.
  *
  * OPC Foundation MIT License 1.00
  *
@@ -36,142 +36,6 @@ using ;
 
 namespace VariableTypeTest
 {
-    #region Variable Identifiers
-    /// <summary>
-    /// A class that declares constants for all Variables in the Model Design.
-    /// </summary>
-    /// <exclude />
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Opc.Ua.ModelCompiler", "1.0.0.0")]
-    public static partial class Variables
-    {
-        /// <summary>
-        /// The identifier for the ComplexVariableType_EURange Variable.
-        /// </summary>
-        public const uint ComplexVariableType_EURange = 12;
-
-        /// <summary>
-        /// The identifier for the ComplexVariableType_VariableChild Variable.
-        /// </summary>
-        public const uint ComplexVariableType_VariableChild = 14;
-    }
-    #endregion
-
-    #region VariableType Identifiers
-    /// <summary>
-    /// A class that declares constants for all VariableTypes in the Model Design.
-    /// </summary>
-    /// <exclude />
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Opc.Ua.ModelCompiler", "1.0.0.0")]
-    public static partial class VariableTypes
-    {
-        /// <summary>
-        /// The identifier for the ComplexVariableType VariableType.
-        /// </summary>
-        public const uint ComplexVariableType = 8;
-
-        /// <summary>
-        /// The identifier for the ArrayVariableType VariableType.
-        /// </summary>
-        public const uint ArrayVariableType = 15;
-
-        /// <summary>
-        /// The identifier for the SimpleVariableWithValueType VariableType.
-        /// </summary>
-        public const uint SimpleVariableWithValueType = 16;
-    }
-    #endregion
-
-    #region Variable Node Identifiers
-    /// <summary>
-    /// A class that declares constants for all Variables in the Model Design.
-    /// </summary>
-    /// <exclude />
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Opc.Ua.ModelCompiler", "1.0.0.0")]
-    public static partial class VariableIds
-    {
-        /// <summary>
-        /// The identifier for the ComplexVariableType_EURange Variable.
-        /// </summary>
-        public static readonly ExpandedNodeId ComplexVariableType_EURange = new ExpandedNodeId(VariableTypeTest.Variables.ComplexVariableType_EURange, VariableTypeTest.Namespaces.cas);
-
-        /// <summary>
-        /// The identifier for the ComplexVariableType_VariableChild Variable.
-        /// </summary>
-        public static readonly ExpandedNodeId ComplexVariableType_VariableChild = new ExpandedNodeId(VariableTypeTest.Variables.ComplexVariableType_VariableChild, VariableTypeTest.Namespaces.cas);
-    }
-    #endregion
-
-    #region VariableType Node Identifiers
-    /// <summary>
-    /// A class that declares constants for all VariableTypes in the Model Design.
-    /// </summary>
-    /// <exclude />
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Opc.Ua.ModelCompiler", "1.0.0.0")]
-    public static partial class VariableTypeIds
-    {
-        /// <summary>
-        /// The identifier for the ComplexVariableType VariableType.
-        /// </summary>
-        public static readonly ExpandedNodeId ComplexVariableType = new ExpandedNodeId(VariableTypeTest.VariableTypes.ComplexVariableType, VariableTypeTest.Namespaces.cas);
-
-        /// <summary>
-        /// The identifier for the ArrayVariableType VariableType.
-        /// </summary>
-        public static readonly ExpandedNodeId ArrayVariableType = new ExpandedNodeId(VariableTypeTest.VariableTypes.ArrayVariableType, VariableTypeTest.Namespaces.cas);
-
-        /// <summary>
-        /// The identifier for the SimpleVariableWithValueType VariableType.
-        /// </summary>
-        public static readonly ExpandedNodeId SimpleVariableWithValueType = new ExpandedNodeId(VariableTypeTest.VariableTypes.SimpleVariableWithValueType, VariableTypeTest.Namespaces.cas);
-    }
-    #endregion
-
-    #region BrowseName Declarations
-    /// <summary>
-    /// Declares all of the BrowseNames used in the Model Design.
-    /// </summary>
-    public static partial class BrowseNames
-    {
-        /// <summary>
-        /// The BrowseName for the ArrayVariableType component.
-        /// </summary>
-        public const string ArrayVariableType = "ArrayVariableType";
-
-        /// <summary>
-        /// The BrowseName for the ComplexVariableType component.
-        /// </summary>
-        public const string ComplexVariableType = "ComplexVariableType";
-
-        /// <summary>
-        /// The BrowseName for the SimpleVariableWithValueType component.
-        /// </summary>
-        public const string SimpleVariableWithValueType = "SimpleVariableWithValueType";
-
-        /// <summary>
-        /// The BrowseName for the VariableChild component.
-        /// </summary>
-        public const string VariableChild = "VariableChild";
-    }
-    #endregion
-
-    #region Namespace Declarations
-    /// <summary>
-    /// Defines constants for all namespaces referenced by the model design.
-    /// </summary>
-    public static partial class Namespaces
-    {
-        /// <summary>
-        /// The URI for the cas namespace (.NET code namespace is 'VariableTypeTest').
-        /// </summary>
-        public const string cas = "http://cas.eu/UA/CommServer/UnitTests/VariableTypeTest";
-
-        /// <summary>
-        /// The URI for the ua namespace (.NET code namespace is '').
-        /// </summary>
-        public const string ua = "http://opcfoundation.org/UA/";
-    }
-    #endregion
-
     #region ComplexVariableState Class
     #if (!OPCUA_EXCLUDE_ComplexVariableState)
     /// <summary>
@@ -219,10 +83,14 @@ namespace VariableTypeTest
         /// </summary>
         protected override void Initialize(ISystemContext context)
         {
+            base.Initialize(context);
             Initialize(context, InitializationString);
             InitializeOptionalChildren(context);
         }
 
+        /// <summary>
+        /// Initializes the instance with a node.
+        /// </summary>
         protected override void Initialize(ISystemContext context, NodeState source)
         {
             InitializeOptionalChildren(context);
@@ -240,18 +108,16 @@ namespace VariableTypeTest
         #region Initialization String
         private const string InitializationString =
            "AQAAADYAAABodHRwOi8vY2FzLmV1L1VBL0NvbW1TZXJ2ZXIvVW5pdFRlc3RzL1ZhcmlhYmxlVHlwZVRl" +
-           "c3T/////FWCJAAIAAAABABsAAABDb21wbGV4VmFyaWFibGVUeXBlSW5zdGFuY2UBAQgAAQEIAAAa////" +
-           "/wEB/////wIAAABVYIkKAgAAAAAABwAAAEVVUmFuZ2UBAQwAAwAAAAAOAAAATmV3RGlzcGxheU5hbWUA" +
-           "LgBEDAAAAAEAdAP/////AQH/////AAAAABVgiQoCAAAAAQANAAAAVmFyaWFibGVDaGlsZAEBDgAALgBE" +
-           "DgAAAAAG/////wIC/////wAAAAA=";
+           "c3T/////FWCJAgIAAAABABsAAABDb21wbGV4VmFyaWFibGVUeXBlSW5zdGFuY2UBAQgAAQEIAAgAAAAA" +
+           "Gv////8BAf////8CAAAAVWCJCgIAAAAAAAcAAABFVVJhbmdlAQEMAAMAAAAADgAAAE5ld0Rpc3BsYXlO" +
+           "YW1lAC4ARAwAAAABAHQD/////wEB/////wAAAAAVYIkKAgAAAAEADQAAAFZhcmlhYmxlQ2hpbGQBAQ4A" +
+           "AC4ARA4AAAAABv////8CAv////8AAAAA";
         #endregion
         #endif
         #endregion
 
         #region Public Properties
-        /// <summary>
-        /// A description for the VariableChild Property.
-        /// </summary>
+        /// <remarks />
         public PropertyState<int> VariableChild
         {
             get
@@ -372,6 +238,9 @@ namespace VariableTypeTest
             ValueRank = TypeInfo.GetValueRank(typeof(T));
         }
 
+        /// <summary>
+        /// Initializes the instance with a node.
+        /// </summary>
         protected override void Initialize(ISystemContext context, NodeState source)
         {
             InitializeOptionalChildren(context);
@@ -448,10 +317,14 @@ namespace VariableTypeTest
         /// </summary>
         protected override void Initialize(ISystemContext context)
         {
+            base.Initialize(context);
             Initialize(context, InitializationString);
             InitializeOptionalChildren(context);
         }
 
+        /// <summary>
+        /// Initializes the instance with a node.
+        /// </summary>
         protected override void Initialize(ISystemContext context, NodeState source)
         {
             InitializeOptionalChildren(context);
@@ -469,8 +342,8 @@ namespace VariableTypeTest
         #region Initialization String
         private const string InitializationString =
            "AQAAADYAAABodHRwOi8vY2FzLmV1L1VBL0NvbW1TZXJ2ZXIvVW5pdFRlc3RzL1ZhcmlhYmxlVHlwZVRl" +
-           "c3T/////F2CJAAIAAAABABkAAABBcnJheVZhcmlhYmxlVHlwZUluc3RhbmNlAQEPAAEBDwAABgMAAAAD" +
-           "AAAAAAAAAAAAAAAAAAAAAQH/////AAAAAA==";
+           "c3T/////F2CJAgIAAAABABkAAABBcnJheVZhcmlhYmxlVHlwZUluc3RhbmNlAQEPAAEBDwAPAAAAAAYD" +
+           "AAAAAwAAAAAAAAAAAAAAAAAAAAEB/////wAAAAA=";
         #endregion
         #endif
         #endregion
@@ -534,10 +407,14 @@ namespace VariableTypeTest
         /// </summary>
         protected override void Initialize(ISystemContext context)
         {
+            base.Initialize(context);
             Initialize(context, InitializationString);
             InitializeOptionalChildren(context);
         }
 
+        /// <summary>
+        /// Initializes the instance with a node.
+        /// </summary>
         protected override void Initialize(ISystemContext context, NodeState source)
         {
             InitializeOptionalChildren(context);
@@ -555,8 +432,8 @@ namespace VariableTypeTest
         #region Initialization String
         private const string InitializationString =
            "AQAAADYAAABodHRwOi8vY2FzLmV1L1VBL0NvbW1TZXJ2ZXIvVW5pdFRlc3RzL1ZhcmlhYmxlVHlwZVRl" +
-           "c3T/////FWCpAAIAAAABACMAAABTaW1wbGVWYXJpYWJsZVdpdGhWYWx1ZVR5cGVJbnN0YW5jZQEBEAAB" +
-           "ARAABgEAAAAABv////8BAf////8AAAAA";
+           "c3T/////FWCpAgIAAAABACMAAABTaW1wbGVWYXJpYWJsZVdpdGhWYWx1ZVR5cGVJbnN0YW5jZQEBEAAB" +
+           "ARAAEAAAAAYBAAAAAAb/////AQH/////AAAAAA==";
         #endregion
         #endif
         #endregion

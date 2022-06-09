@@ -1,6 +1,6 @@
 ﻿//__________________________________________________________________________________________________
 //
-//  Copyright (C) 2021, Mariusz Postol LODZ POLAND.
+//  Copyright (C) 2022, Mariusz Postol LODZ POLAND.
 //
 //  To be in touch join the community at GitHub: https://github.com/mpostol/OPC-UA-OOI/discussions
 //__________________________________________________________________________________________________
@@ -15,6 +15,7 @@ namespace UAOOI.SemanticData.UANodeSetValidation
   /// <summary>
   /// Interface IAddressSpaceContext - represents a service used to buildup OPc UA Address Space
   /// </summary>
+  // TODO Define independent Address Space API #645
   public interface IAddressSpaceContext
   {
     /// <summary>
@@ -22,10 +23,11 @@ namespace UAOOI.SemanticData.UANodeSetValidation
     /// </summary>
     /// <param name="model">The model to be imported.</param>
     /// <returns>Return a default <see cref="Uri"/> for the model defined in <see cref="UANodeSet"/>.</returns>
+    //TODO Define independent Address Space API #645 - remove dependency on UANodeSet
     Uri ImportUANodeSet(UANodeSet model);
 
     /// <summary>
-    /// Imports all OPC UA Address Space models contained in the file <paramref name="document"/> described by the <see cref="FileInfo"/>, and populates internal OPC UA Address Space. 
+    /// Imports all OPC UA Address Space models contained in the file <paramref name="document"/> described by the <see cref="FileInfo"/>, and populates internal OPC UA Address Space.
     /// </summary>
     /// <remarks>
     /// The input document must be compliant with the `UANodeSet` schema.

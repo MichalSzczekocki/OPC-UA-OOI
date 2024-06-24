@@ -1,6 +1,6 @@
 ﻿//__________________________________________________________________________________________________
 //
-//  Copyright (C) 2021, Mariusz Postol LODZ POLAND.
+//  Copyright (C) 2022, Mariusz Postol LODZ POLAND.
 //
 //  To be in touch join the community at GitHub: https://github.com/mpostol/OPC-UA-OOI/discussions
 //__________________________________________________________________________________________________
@@ -13,9 +13,8 @@ using System.Diagnostics;
 using System.IO;
 using System.Threading.Tasks;
 using UAOOI.Common.Infrastructure.Diagnostic;
+using UAOOI.SemanticData.AddressSpace.Abstractions;
 using UAOOI.SemanticData.AddressSpacePrototyping.CommandLineSyntax;
-using UAOOI.SemanticData.InformationModelFactory;
-using UAOOI.SemanticData.UANodeSetValidation;
 using UAOOI.SemanticData.UANodeSetValidation.XML;
 
 namespace UAOOI.SemanticData.AddressSpacePrototyping
@@ -39,6 +38,7 @@ namespace UAOOI.SemanticData.AddressSpacePrototyping
       programInstance.GetTraceSource(x => currentLogger = x);
       Assert.IsNotNull(currentLogger);
     }
+
     [TestMethod]
     public async Task EmptyArgsTest()
     {
@@ -61,28 +61,42 @@ namespace UAOOI.SemanticData.AddressSpacePrototyping
     public void OptionsTestMethod()
     {
       Mock<IAddressSpaceContext> asMock = new Mock<IAddressSpaceContext>();
-      asMock.Setup(x => x.ImportUANodeSet(It.IsAny<FileInfo>()));
       asMock.Setup(x => x.ImportUANodeSet(It.IsAny<UANodeSet>()));
-      asMock.SetupSet(x => x.InformationModelFactory = It.IsAny<IModelFactory>());
-
       Program program = new Program();
+
       Options options = new Options() { Filenames = null, IMNamespace = "bleble", ModelDesignFileName = string.Empty, NoLogo = true, Stylesheet = string.Empty };
-      Assert.ThrowsException<ArgumentOutOfRangeException>(() => program.Do(options, asMock.Object));
-      options = new Options() { Filenames = new List<string>() { "" }, IMNamespace = "bleble", ModelDesignFileName = string.Empty, NoLogo = true, Stylesheet = string.Empty };
-      Assert.ThrowsException<UriFormatException>(() => program.Do(options, asMock.Object));
-      options = new Options() { Filenames = new List<string>() { "bleble" }, IMNamespace = "http://cas.eu/UA/CommServer/UnitTests/DataTypeTest", ModelDesignFileName = string.Empty, NoLogo = true, Stylesheet = string.Empty };
-      Assert.ThrowsException<FileNotFoundException>(() => program.Do(options, asMock.Object));
-      options = new Options() { Filenames = new List<string>() { @"XMLModels\DataTypeTest.NodeSet2.xml" }, IMNamespace = String.Empty, ModelDesignFileName = string.Empty, NoLogo = true, Stylesheet = string.Empty };
-      Assert.ThrowsException<ArgumentOutOfRangeException>(() => program.Do(options, asMock.Object));
-      asMock.VerifySet(x => x.InformationModelFactory = It.IsAny<IModelFactory>(), Times.Never);
-      asMock.Verify(x => x.ImportUANodeSet(It.IsAny<FileInfo>()), Times.Never);
+      Assert.ThrowsException<ArgumentOutOfRangeException>(() => program.DoValidateAndExportModel(options, asMock.Object));
       asMock.Verify(x => x.ImportUANodeSet(It.IsAny<UANodeSet>()), Times.Never);
 
-      options = new Options() { Filenames = new List<string>() { @"XMLModels\DataTypeTest.NodeSet2.xml" }, IMNamespace = "http://cas.eu/UA/CommServer/UnitTests/DataTypeTest", ModelDesignFileName = string.Empty, NoLogo = true, Stylesheet = string.Empty };
-      program.Do(options, asMock.Object);
-      asMock.VerifySet(x => x.InformationModelFactory = It.IsAny<IModelFactory>(), Times.Never);
-      asMock.Verify(x => x.ImportUANodeSet(It.IsAny<FileInfo>()), Times.Once);
+      options = new Options() { Filenames = new List<string>() { "" }, IMNamespace = "bleble", ModelDesignFileName = string.Empty, NoLogo = true, Stylesheet = string.Empty };
+      Assert.ThrowsException<UriFormatException>(() => program.DoValidateAndExportModel(options, asMock.Object));
       asMock.Verify(x => x.ImportUANodeSet(It.IsAny<UANodeSet>()), Times.Never);
+
+      options = new Options() { Filenames = new List<string>() { @"XMLModels\DataTypeTest.NodeSet2.xml" }, IMNamespace = String.Empty, ModelDesignFileName = string.Empty, NoLogo = true, Stylesheet = string.Empty };
+      Assert.ThrowsException<ArgumentOutOfRangeException>(() => program.DoValidateAndExportModel(options, asMock.Object));
+      asMock.Verify(x => x.ImportUANodeSet(It.IsAny<UANodeSet>()), Times.Never);
+    }
+
+    [TestMethod]
+    public void FileNotFounTest()
+    {
+      Mock<IAddressSpaceContext> asMock = new Mock<IAddressSpaceContext>();
+      asMock.Setup(x => x.ImportUANodeSet(It.IsAny<UANodeSet>()));
+      Program program = new Program();
+      Options options = new Options() { Filenames = new List<string>() { "bleble" }, IMNamespace = "http://cas.eu/UA/CommServer/UnitTests/DataTypeTest", ModelDesignFileName = string.Empty, NoLogo = true, Stylesheet = string.Empty };
+      Assert.ThrowsException<FileNotFoundException>(() => program.DoValidateAndExportModel(options, asMock.Object));
+      asMock.Verify(x => x.ImportUANodeSet(It.IsAny<UANodeSet>()), Times.Once);
+    }
+
+    [TestMethod]
+    public void ValidateExistingModelTest()
+    {
+      Mock<IAddressSpaceContext> asMock = new Mock<IAddressSpaceContext>();
+      asMock.Setup(x => x.ImportUANodeSet(It.IsAny<UANodeSet>()));
+      Program program = new Program();
+      Options options = new Options() { Filenames = new List<string>() { @"XMLModels\DataTypeTest.NodeSet2.xml" }, IMNamespace = "http://cas.eu/UA/CommServer/UnitTests/DataTypeTest", ModelDesignFileName = string.Empty, NoLogo = true, Stylesheet = string.Empty };
+      program.DoValidateAndExportModel(options, asMock.Object);
+      asMock.Verify(x => x.ImportUANodeSet(It.IsAny<UANodeSet>()), Times.Exactly(2));
     }
   }
 }
